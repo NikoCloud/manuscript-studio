@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manuscript Studio | AI Collaborative Writing</title>
+    <!-- UI/UX Pro Max: Design System Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0D9488',     // Teal
+                        secondary: '#14B8A6',   // Soft Teal
+                        accent: '#F97316',      // Action Orange
+                        background: '#F0FDFA',  // Very Light Teal
+                        dark: '#134E4A',        // Deep Teal
+                        muted: '#64748B',       // Slate
+                    },
+                    fontFamily: {
+                        heading: ['Archivo', 'sans-serif'],
+                        body: ['Space Grotesk', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Space Grotesk', sans-serif; background: #F0FDFA; color: #134E4A; }
+        h1, h2, h3, h4 { font-family: 'Archivo', sans-serif; font-weight: 700; }
+        
+        .transition-soft { transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(13, 148, 136, 0.1);
+        }
+
+        .editor-container {
+            caret-color: #0D9488;
+            line-height: 1.8;
+            font-size: 1.125rem;
+        }
+
+        .nav-active {
+            @apply bg-primary text-white shadow-lg shadow-primary/20;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #14B8A6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0D9488; }
+    </style>
+</head>
+<body class="h-screen overflow-hidden flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-b border-primary/10 px-8 py-4 flex items-center justify-between shrink-0 z-30 shadow-sm">
+        <div class="flex items-center gap-4">
+            <div class="p-2 bg-primary/10 rounded-xl">
+                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <h1 class="text-xl font-bold tracking-tight text-dark">Manuscript Studio</h1>
+        </div>
+        
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2 px-4 py-1.5 bg-primary/5 rounded-full border border-primary/10">
+                <span class="text-xs font-bold text-primary uppercase tracking-widest" id="wordCount">1,248 Words</span>
+            </div>
+            <button id="deskModeBtn" class="px-5 py-2 text-sm font-bold bg-primary text-white rounded-full shadow-lg shadow-primary/20 hover:bg-dark transition-soft active:scale-95">
+                Desk Mode
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main id="mainContent" class="flex-1 flex overflow-hidden relative">
+
+        <!-- Left Column: The Editor -->
+        <section id="editorView" class="flex-1 flex flex-col bg-white">
+            <div class="px-10 py-6 border-b border-primary/5 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-4 flex-1">
+                    <select class="bg-primary/5 border-none rounded-lg text-sm font-bold text-primary focus:ring-2 focus:ring-primary/20 transition-soft cursor-pointer">
+                        <option>Chapter 1: The Threshold</option>
+                        <option>Chapter 2: Echoes in the Dark</option>
+                        <option>Chapter 3: The Ascent</option>
+                    </select>
+                    <input type="text" placeholder="Scene title..." class="flex-1 text-lg font-bold text-dark border-none focus:ring-0 placeholder:text-muted/40" value="The morning sun filtered through the blinds" />
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto px-12 lg:px-24 py-16 editor-container">
+                <div class="max-w-3xl mx-auto">
+                    <p class="text-lg text-dark/80 leading-relaxed mb-8 outline-none" contenteditable="true" spellcheck="false">
+                        The morning sun filtered through the blinds, casting stripes across the wooden floor. Elena sat at her desk, fingers hovering over the keyboard. She knew that once she started typing, there would be no turning back.
+                    </p>
+                    <p class="text-lg text-dark/80 leading-relaxed mb-8 outline-none" contenteditable="true" spellcheck="false">
+                        Outside, the city was beginning to wake. The distant hum of traffic provided a steady rhythm to her thoughts. It had been three years since she last stepped foot in the Archive, and the weight of that memory still pressed against her chest like a physical burden.
+                    </p>
+                </div>
+            </div>
+
+            <footer class="px-10 py-4 border-t border-primary/5 bg-background/30 flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-muted">
+                <div class="flex gap-4">
+                    <span>Draft: Version 2.4</span>
+                    <span class="text-primary">Last saved: 2m ago</span>
+                </div>
+                <span>Readability: Grade 9</span>
+            </footer>
+        </section>
+
+        <!-- Right Column: AI Collaborator -->
+        <aside id="chatPanel" class="w-[450px] bg-background/50 border-l border-primary/10 flex flex-col shadow-inner">
+            <div class="p-6 shrink-0">
+                <div class="flex p-1 bg-white rounded-xl border border-primary/10 shadow-sm">
+                    <button class="flex-1 py-2 text-xs font-bold rounded-lg nav-active transition-soft">Collaboration</button>
+                    <button class="flex-1 py-2 text-xs font-bold rounded-lg text-muted hover:text-primary transition-soft">World Bible</button>
+                    <button class="flex-1 py-2 text-xs font-bold rounded-lg text-muted hover:text-primary transition-soft">Plot Board</button>
+                </div>
+            </div>
+
+            <!-- Chat History -->
+            <div class="flex-1 overflow-y-auto px-6 space-y-6" id="chatHistory">
+                <div class="flex flex-col gap-2">
+                    <div class="self-start max-w-[85%] bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-primary/5">
+                        <p class="text-sm text-dark leading-relaxed">I've noticed a recurring motif of "thresholds" in this scene. Would you like me to suggest how we could deepen that symbolism in Chapter 2?</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <div class="self-end max-w-[85%] bg-primary p-4 rounded-2xl rounded-tr-none shadow-lg shadow-primary/20">
+                        <p class="text-sm text-white leading-relaxed font-medium">Yes, let's explore that. Maybe something about the city acting as a gateway?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-6 bg-white border-t border-primary/10 space-y-4">
+                <div class="flex gap-2">
+                    <button class="px-4 py-2 bg-primary/5 text-primary text-[10px] font-bold uppercase rounded-lg border border-primary/10 hover:bg-primary/10 transition-soft">Suggest Scene</button>
+                    <button class="px-4 py-2 bg-primary/5 text-primary text-[10px] font-bold uppercase rounded-lg border border-primary/10 hover:bg-primary/10 transition-soft">Check Logic</button>
+                </div>
+                
+                <div class="relative">
+                    <textarea id="chatInput" placeholder="Brainstorm with your partner..." 
+                        class="w-full p-4 bg-background/50 border border-primary/10 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-soft text-sm resize-none" rows="3"></textarea>
+                    <button id="sendChat" class="absolute bottom-3 right-3 p-2 bg-primary text-white rounded-xl shadow-lg hover:bg-dark transition-soft active:scale-90">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- Bottom Action Bar (Floating) -->
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-4 z-40">
+        <button class="glass-card flex items-center gap-3 px-6 py-3 rounded-full shadow-2xl hover:scale-105 transition-soft group">
+            <div class="p-2 bg-accent rounded-full text-white group-hover:rotate-12 transition-soft">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+            </div>
+            <span class="text-sm font-bold text-dark">Dictate Scene</span>
+        </button>
+    </div>
+
+</body>
+</html>
